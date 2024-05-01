@@ -45,21 +45,19 @@ void TcpServer::slotReadyRead()
         }
 
         qDebug() << "read...";
-        QList<quint32> n;
-        in >> n;
-        QFile file("/home/damir/tex.txt");
-        if (file.open(QIODevice::Append | QIODevice::Text)) {
-            QTextStream out(&file);
-            for (const quint32& data : n) {
-                out << data << "\n";
-            }
-            file.close();
-            qDebug() << "Данные успешно записаны в файл.";
-        } else {
-            qDebug() << "Ошибка открытия файла для записи.";
-        }
-
-        mass = n;
+//        QList<quint32> n;
+//        in >> n;
+//        QFile file("/home/damir/tex.txt");
+//        if (file.open(QIODevice::Append | QIODevice::Text)) {
+//            QTextStream out(&file);
+//            for (const quint32& data : n) {
+//                out << data << "\n";
+//            }
+//            file.close();
+//            qDebug() << "Данные успешно записаны в файл.";
+//        } else {
+//            qDebug() << "Ошибка открытия файла для записи.";
+//        }
         m_nNextBlockSize = 0;
     }
 }
