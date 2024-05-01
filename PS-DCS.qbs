@@ -8,13 +8,7 @@ QtApplication {
 
     consoleApplication: true
     install: true
-    files: [
-        "main.cpp",
-        "tcpclient.cpp",
-        "tcpclient.h",
-        "tcpserver.cpp",
-        "tcpserver.h",
-    ]
+    files: ["main.cpp", "tcpclient.cpp", "tcpclient.h", "tcpserver.cpp", "tcpserver.h", "discovery-service.h", "discovery-service.cpp"]
 
     Depends {
         name: "Qt"
