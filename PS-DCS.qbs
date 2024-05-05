@@ -8,7 +8,9 @@ QtApplication {
     cpp.cxxLanguageVersion: "c++17"
     consoleApplication: true
     install: true
-    files: ["main.cpp", "tcpclient.cpp", "tcpclient.h", "tcpserver.cpp", "tcpserver.h", "discovery-service.h", "discovery-service.cpp"]
+
+    files: ["main.cpp", "tcpclient.cpp", "tcpclient.h", "tcpserver.cpp", "tcpserver.h", "discovery-service.h", "discovery-service.cpp", "serializator.h"]
+    
     Depends {
         name: "Qt"
         submodules: ["core", "network"]
