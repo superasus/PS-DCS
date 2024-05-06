@@ -4,7 +4,6 @@
 #include <QString>
 #include <QByteArray>
 #include <tuple>
-#include <qtypes.h>
 
 namespace Serializator
 {
@@ -12,7 +11,7 @@ namespace{
 template <typename T>
 void binarySerializeElement(T& element, QByteArray& answer)
 {
-    uint8_t* buf = reinterpret_cast<uint8_t*>(&element);
+    quint8* buf = reinterpret_cast<quint8*>(&element);
     for (quint32 i = 0; i < sizeof(element); i++) answer.append(buf[i]);
 }
 
