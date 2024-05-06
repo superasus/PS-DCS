@@ -3,8 +3,8 @@
 #define SERIALIZATOR_H
 #include <QString>
 #include <QByteArray>
-#include <cstddef>
 #include <tuple>
+#include <qtypes.h>
 
 namespace Serializator
 {
@@ -13,44 +13,44 @@ template <typename T>
 void binarySerializeElement(T& element, QByteArray& answer)
 {
     uint8_t* buf = reinterpret_cast<uint8_t*>(&element);
-    for (size_t i = 0; i < sizeof(element); i++) answer.append(buf[i]);
+    for (quint32 i = 0; i < sizeof(element); i++) answer.append(buf[i]);
 }
 
 template <typename T>
 void binarySerializeContainer(T& container, QByteArray& answer)
 {
-    size_t containerSize = container.size();
-    size_t containerElementSize = sizeof(typename T::value_type);
+    quint32 containerSize = container.size();
+    quint32 containerElementSize = sizeof(typename T::value_type);
     binarySerializeElement(containerSize, answer);
     answer.append(containerElementSize);
     for (auto& el : container) binarySerializeElement(el, answer);
 }
 
 template <typename T>
-T binaryDeserializeElement(const QByteArray& bytes, size_t& byteIndex)
+T binaryDeserializeElement(const QByteArray& bytes, quint32& byteIndex)
 {
     quint8* buf = new quint8[sizeof(T)];
-    for (size_t j = 0; j < sizeof(T); ++j, ++byteIndex) buf[j] = bytes[byteIndex];
-    size_t answer = *(reinterpret_cast<size_t*>(buf));
+    for (quint32 j = 0; j < sizeof(T); ++j, ++byteIndex) buf[j] = bytes[byteIndex];
+    quint32 answer = *(reinterpret_cast<quint32*>(buf));
     delete[] buf;
     return answer;
 }
 
 template <typename T>
-T binaryDeserializeElement(const QByteArray& bytes, size_t& byteIndex, quint8* allocatedBuf)
+T binaryDeserializeElement(const QByteArray& bytes, quint32& byteIndex, quint8* allocatedBuf)
 {
-    for (size_t j = 0; j < sizeof(T); ++j, ++byteIndex) allocatedBuf[j] = bytes[byteIndex];
+    for (quint32 j = 0; j < sizeof(T); ++j, ++byteIndex) allocatedBuf[j] = bytes[byteIndex];
     T answer = *(reinterpret_cast<T*>(allocatedBuf));
     return answer;
 }
 
 
 template <typename T>
-T binaryDeserializeContainer(const QByteArray& bytes, size_t& byteIndex)
+T binaryDeserializeContainer(const QByteArray& bytes, quint32& byteIndex)
 {
     T answer;
-    size_t containerSize = binaryDeserializeElement<size_t>(bytes, byteIndex);
-    size_t elementSize = bytes[byteIndex++];
+    quint32 containerSize = binaryDeserializeElement<quint32>(bytes, byteIndex);
+    quint32 elementSize = bytes[byteIndex++];
 
     if (elementSize != sizeof(typename T::value_type))
     {
@@ -59,7 +59,7 @@ T binaryDeserializeContainer(const QByteArray& bytes, size_t& byteIndex)
         throw std::invalid_argument(errorMessage.toStdString());
     }
     quint8* buf = new quint8[sizeof(typename T::value_type)];
-    for (size_t i = 0; i < containerSize; i++)
+    for (quint32 i = 0; i < containerSize; i++)
     {
         answer.append(binaryDeserializeElement<typename T::value_type>(bytes, byteIndex, buf));
     }
@@ -68,12 +68,12 @@ T binaryDeserializeContainer(const QByteArray& bytes, size_t& byteIndex)
 }
 
 template<
-    size_t Lim,
-    size_t I = 0,
+    quint32 Lim,
+    quint32 I = 0,
     typename Tuple,
     typename Container = std::tuple_element_t <I, Tuple>>
 
-void binaryDeserializeContainersProcess(Tuple& tuple, const QByteArray& bytes, size_t& byteIndex)
+void binaryDeserializeContainersProcess(Tuple& tuple, const QByteArray& bytes, quint32& byteIndex)
 {
     std::get<I>(tuple) = binaryDeserializeContainer<Container>(bytes, byteIndex);
     if constexpr (I + 1 != Lim)
@@ -100,7 +100,7 @@ std::tuple<Types...> binaryDeserializeContainers(const QByteArray& bytes)
     std::tuple<Types...> answer;
     if constexpr (sizeof...(Types))
     {
-        size_t byteIndex = 0;
+        quint32 byteIndex = 0;
 
         binaryDeserializeContainersProcess<sizeof...(Types)>(answer, bytes, byteIndex);
     }
