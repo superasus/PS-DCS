@@ -15,7 +15,9 @@ private slots:
     void QSTRING_TEST();
     void QVECTOR_TEST();
     void QLIST_TEST();
+    void EMPTY_CONYAINER_TEST();
     void MULTIPLE_CONTAINERS_TEST();
+    void SIMPLE_STRUCT_VECTOR_TEST();
 };
 
 #endif // SERIALIZATORTESTS_H
