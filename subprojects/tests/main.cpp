@@ -3,5 +3,5 @@
 int main()
 {
     SerializatorTests st;
-    QTest::qExec(&st);
+    return QTest::qExec(&st);
 }
