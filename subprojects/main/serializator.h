@@ -7,7 +7,7 @@
 
 namespace Serializator
 {
-namespace{
+namespace __service{
 
 /*!
  * \brief Выполняет двоичную сериализацию одного элемента
@@ -17,9 +17,9 @@ namespace{
  * \param <answer> - ранее созданный QByteArray, куда будет помещён результат сериализации
  */
 template <typename T>
-void binarySerializeElement(T& element, QByteArray& answer)
+void binarySerializeElement(const T& element, QByteArray& answer)
 {
-    quint8* buf = reinterpret_cast<quint8*>(&element);
+    const quint8* buf = reinterpret_cast<const quint8*>(&element);
     for (quint32 i = 0; i < sizeof(element); i++) answer.append(buf[i]);
 }
 
@@ -151,7 +151,7 @@ template<typename CurrentContainer, typename ... OtherContainers>
 QByteArray binarySerializeContainers(const CurrentContainer& container, const OtherContainers& ... otherContainers)
 {
     QByteArray answer;
-    binarySerializeContainer(container, answer);
+    __service::binarySerializeContainer(container, answer);
     if constexpr (sizeof...(otherContainers))
     {
         QByteArray additional_bytes = binarySerializeContainers(otherContainers...);
@@ -181,7 +181,7 @@ std::tuple<Types...> binaryDeserializeContainers(const QByteArray& bytes)
     {
         quint32 byteIndex = 0;
 
-        binaryDeserializeContainersProcess<sizeof...(Types)>(answer, bytes, byteIndex);
+        __service::binaryDeserializeContainersProcess<sizeof...(Types)>(answer, bytes, byteIndex);
     }
     return answer;
 }
