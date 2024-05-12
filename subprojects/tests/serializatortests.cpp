@@ -84,3 +84,46 @@ void SerializatorTests::FUNDAMENTAL_TYPES_TEST()
     QCOMPARE(std::get<1>(serializatorResult), b);
     QCOMPARE(std::get<2>(serializatorResult), c);
 }
+
+void SerializatorTests::MIXED_TYPES_TEST()
+{
+    quint32 a = 10;
+    quint64 b = 90;
+    QVector<float> vec = {10.43, 5, 95.10};
+    QList<quint32> list = {1,2,3, 10};
+    auto serializatorResult =
+        Serializator::binaryDeserialize<quint32, quint64, QVector<float>, QList<quint32>>(
+            Serializator::binarySerialize(a, b, vec, list));
+    QCOMPARE(std::get<0>(serializatorResult), a);
+    QCOMPARE(std::get<1>(serializatorResult), b);
+    QCOMPARE(std::get<2>(serializatorResult), vec);
+    QCOMPARE(std::get<3>(serializatorResult), list);
+}
+
+void SerializatorTests::MIXED_TYPES_TEST_2()
+{    struct point{
+        quint32 x;
+        quint32 y;
+        quint32 z;
+        bool operator==(const point& other) const noexcept
+        {return x==other.x && y==other.y && z==other.z;}
+    };
+
+    QVector<point> points = {{0, 0, 0},{1, 2, 3},{10, 15, 20}};
+    quint32 a = 10;
+    quint64 b = 90;
+    point p = {15, 42, 1388};
+    QString string = "I'm very cool";
+    QByteArray bytes = "Cool bytes";
+
+    auto serializatorResult =
+        Serializator::binaryDeserialize<QVector<point>, quint32, quint64, point, QString, QByteArray>(
+            Serializator::binarySerialize(points, a, b, p, string, bytes));
+
+    QCOMPARE(std::get<0>(serializatorResult), points);
+    QCOMPARE(std::get<1>(serializatorResult), a);
+    QCOMPARE(std::get<2>(serializatorResult), b);
+    QCOMPARE(std::get<3>(serializatorResult), p);
+    QCOMPARE(std::get<4>(serializatorResult), string);
+    QCOMPARE(std::get<5>(serializatorResult), bytes);
+}
