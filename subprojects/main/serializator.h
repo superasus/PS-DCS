@@ -76,7 +76,7 @@ namespace __service{
     T binaryDeserializeElement(
         const QByteArray& bytes,
         quint32& byteIndex,
-        std::enable_if<!is_container<T>::value, void**> = nullptr)
+        std::enable_if_t<!is_container<T>::value, void**> = nullptr)
     {
         quint8* buf = new quint8[sizeof(T)];
         for (quint32 j = 0; j < sizeof(T); ++j, ++byteIndex) buf[j] = bytes[byteIndex];
@@ -121,7 +121,7 @@ namespace __service{
     T binaryDeserializeElement(
         const QByteArray& bytes,
         quint32& byteIndex,
-        std::enable_if<is_container<T>::value, void**> = nullptr)
+        std::enable_if_t<is_container<T>::value, void**> = nullptr)
     {
         T answer;
         quint32 containerSize = binaryDeserializeElement<quint32>(bytes, byteIndex);
@@ -184,7 +184,8 @@ template <typename ... Types>
 std::tuple<Types...> binaryDeserialize(const QByteArray& bytes)
 {
     std::tuple<Types...> answer;
-    __service::binaryDeserializeElementsProcess<sizeof...(Types)>(answer, bytes, 0);
+    quint32 byteIndex = 0;
+    __service::binaryDeserializeElementsProcess<sizeof...(Types)>(answer, bytes, byteIndex);
     return answer;
 }
 
