@@ -19,6 +19,8 @@ private slots:
     void MULTIPLE_CONTAINERS_TEST();
     void SIMPLE_STRUCT_VECTOR_TEST();
     void FUNDAMENTAL_TYPES_TEST();
+    void MIXED_TYPES_TEST();
+    void MIXED_TYPES_TEST_2();
 };
 
 #endif // SERIALIZATORTESTS_H
