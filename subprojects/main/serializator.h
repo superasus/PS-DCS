@@ -1,5 +1,3 @@
-#pragma once
-#include "qdebug.h"
 #ifndef SERIALIZATOR_H
 #define SERIALIZATOR_H
 #include <QString>
@@ -35,7 +33,6 @@ namespace __service{
         QByteArray& answer,
         typename std::enable_if_t<!is_container<T>::value, void**> = nullptr)
     {
-        qInfo()<<"element";
         const quint8* buf = reinterpret_cast<const quint8*>(&element);
         for (quint32 i = 0; i < sizeof(element); i++) answer.append(buf[i]);
     }
@@ -55,7 +52,6 @@ namespace __service{
         QByteArray& answer,
         typename std::enable_if_t<is_container<T>::value, void**> = nullptr)
     {
-        qInfo()<<"container";
         quint32 containerSize = container.size();
         quint32 containerElementSize = sizeof(typename T::value_type);
         binarySerializeElement(containerSize, answer);
@@ -171,7 +167,6 @@ template <typename Element, typename ... OtherElements>
 QByteArray binarySerialize(const Element& el, const OtherElements& ... elements)
 {
     QByteArray answer;
-    qInfo()<<__service::is_container<Element>::value;
     __service::binarySerializeElement(el, answer);
     if constexpr (sizeof...(OtherElements))
     {
