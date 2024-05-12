@@ -18,6 +18,7 @@ private slots:
     void EMPTY_CONYAINER_TEST();
     void MULTIPLE_CONTAINERS_TEST();
     void SIMPLE_STRUCT_VECTOR_TEST();
+    void FUNDAMENTAL_TYPES_TEST();
 };
 
 #endif // SERIALIZATORTESTS_H

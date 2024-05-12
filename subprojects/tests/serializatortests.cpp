@@ -4,8 +4,8 @@ void SerializatorTests::QSTRING_TEST()
 {
     QString testString = "I'm test string";
     auto serializatorResult =
-        Serializator::binaryDeserializeContainers<QString>(
-            Serializator::binarySerializeContainers(testString));
+        Serializator::binaryDeserialize<QString>(
+            Serializator::binarySerialize(testString));
     QString answerString = std::get<0>(serializatorResult);
     QCOMPARE(answerString, testString);
 }
@@ -14,8 +14,8 @@ void SerializatorTests::QVECTOR_TEST()
 {
     QVector<float> testVector = {10.43, 5, 95.10};
     auto serializatorResult =
-        Serializator::binaryDeserializeContainers<QVector<float>>(
-            Serializator::binarySerializeContainers(testVector));
+        Serializator::binaryDeserialize<QVector<float>>(
+            Serializator::binarySerialize(testVector));
     QVector<float> answerString = std::get<0>(serializatorResult);
     QCOMPARE(answerString, testVector);
 }
@@ -24,8 +24,8 @@ void SerializatorTests::QLIST_TEST()
 {
     QList<float> testList = {10.43, 5, 95.10};
     auto serializatorResult =
-        Serializator::binaryDeserializeContainers<QList<float>>(
-            Serializator::binarySerializeContainers(testList));
+        Serializator::binaryDeserialize<QList<float>>(
+            Serializator::binarySerialize(testList));
     QList<float> answerString = std::get<0>(serializatorResult);
     QCOMPARE(answerString, testList);
 }
@@ -34,8 +34,8 @@ void SerializatorTests::EMPTY_CONYAINER_TEST()
 {
     QList<float> testList = {};
     auto serializatorResult =
-        Serializator::binaryDeserializeContainers<QList<float>>(
-            Serializator::binarySerializeContainers(testList));
+        Serializator::binaryDeserialize<QList<float>>(
+            Serializator::binarySerialize(testList));
     QList<float> answerString = std::get<0>(serializatorResult);
     QCOMPARE(answerString, testList);
 }
@@ -47,8 +47,8 @@ void SerializatorTests::MULTIPLE_CONTAINERS_TEST()
     QList<quint32> list = {1,2,3, 10};
 
     auto serializatorResult =
-        Serializator::binaryDeserializeContainers<QString, QVector<float>, QList<quint32>>(
-            Serializator::binarySerializeContainers(string, vec, list));
+        Serializator::binaryDeserialize<QString, QVector<float>, QList<quint32>>(
+            Serializator::binarySerialize(string, vec, list));
 
     QCOMPARE(std::get<0>(serializatorResult), string);
     QCOMPARE(std::get<1>(serializatorResult), vec);
@@ -67,7 +67,20 @@ void SerializatorTests::SIMPLE_STRUCT_VECTOR_TEST()
 
     QVector<point> points = {{0, 0, 0},{1, 2, 3},{10, 15, 20}};
     auto serializatorResult =
-        Serializator::binaryDeserializeContainers<QVector<point>>(
-            Serializator::binarySerializeContainers(points));
+        Serializator::binaryDeserialize<QVector<point>>(
+            Serializator::binarySerialize(points));
     QCOMPARE(std::get<0>(serializatorResult), points);
+}
+
+void SerializatorTests::FUNDAMENTAL_TYPES_TEST()
+{
+    quint32 a = 10;
+    quint64 b = 90;
+    float c = 10.54;
+    auto serializatorResult =
+        Serializator::binaryDeserialize<quint32, quint64, float>(
+        Serializator::binarySerialize(a, b, c));
+    QCOMPARE(std::get<0>(serializatorResult), a);
+    QCOMPARE(std::get<1>(serializatorResult), b);
+    QCOMPARE(std::get<2>(serializatorResult), c);
 }
