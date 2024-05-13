@@ -10,11 +10,13 @@ CppApplication {
     }
     Group{
         name: "discoveryServiceTests"
-        files:["discoveryservicetests.cpp", "discoveryservicetests.h"]
+        files:["discoveryservicetests.cpp", "discoveryservicetests.h",
+        "../main/discoveryService.h",
+        "../main/discoveryService.cpp"]
     }
 
     files: [
-        "main.cpp",
+        "main.cpp"
     ]
     Depends {
         name: "Qt"

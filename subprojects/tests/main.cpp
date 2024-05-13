@@ -1,7 +1,8 @@
 #include <QTest>
 #include "serializatortests.h"
+#include "discoveryservicetests.h"
 int main()
 {
-    SerializatorTests st;
+    DiscoveryServiceTests st;
     return QTest::qExec(&st);
 }
