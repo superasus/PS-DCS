@@ -3,6 +3,9 @@
 #include <QObject>
 #include <QTcpSocket>
 #include <QDataStream>
+#include <QFile>
+#include "serializator.h"
+#include "message.h"
 
 class TcpClient: public QObject
 {
@@ -24,16 +27,18 @@ public:
     ~TcpClient();
     /*!
      * \brief SendMeesage для отправки массива на сервер
-     * \param n массив quint32
+     * \param dataList массив float
      */
-    void SendMeesage(QList<quint32> n);
+    void sendMeesageToServer(struct Message data);
 
 private:
-    void SendToServer(QList<quint32> n);
     QTcpSocket *socket;
-    QByteArray Data;
-    quint16     m_nNextBlockSize;
-
+    quint16 m_nNextBlockSize;
+    void sendToServer(struct Message data);
+     //cn
+    QString func;
+    void messageProcessing(QTcpSocket* pSocket, struct Message dataProcessing);
+    struct Message data;
 public slots:
     void slotReadyRead();
 };
