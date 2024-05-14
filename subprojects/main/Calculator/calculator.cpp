@@ -32,10 +32,10 @@ float Calculator::CalculateFunc(const QByteArray &func, float funcArg) const
     return m_mst.value();
 }
 
-QVector<float> Calculator::CalculateFuncRange(const QByteArray &func, const QVector<float> &funcArgsRange)
+QList<float> Calculator::CalculateFuncRange(const QByteArray &func, const QVector<float> &funcArgsRange)
 {
     m_mst.buildTree(func);
-    QVector<float> answer;
+    QList<float> answer;
     for (const auto& arg : funcArgsRange)
     {
         m_mst.setArgumentValue(arg);

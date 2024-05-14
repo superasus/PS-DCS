@@ -1,7 +1,7 @@
 import qbs
 
 Project {
-    property bool withTests: true
+    property bool withTests: false
 
     SubProject {
         filePath: "subprojects/main/PS-DCS.qbs"

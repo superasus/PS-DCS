@@ -15,7 +15,7 @@ enum reason{
  */
 struct Message
 {
-    QString function;
+    QByteArray function;
     reason ReasonForTransfer;
     qsizetype sizeArray;
     QList<float> dataProtokol;

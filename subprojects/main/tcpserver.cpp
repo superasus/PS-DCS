@@ -30,7 +30,6 @@ void TcpServer::slotReadyRead()
     QTcpSocket* pClientSocket = (QTcpSocket*)sender();
     QDataStream in(pClientSocket);
     in.setVersion(QDataStream::Qt_5_15);
-    Message data;
     for (;;)
     {
         if (!m_nNextBlockSize)
@@ -48,14 +47,19 @@ void TcpServer::slotReadyRead()
         qDebug() << "read...";
         QByteArray byte;
         in >> byte;
-        std::tuple<QString,qsizetype, reason, QList<float>> ar = Serializator::binaryDeserialize<QString,qsizetype, reason, QList<float>>(byte);
+        std::tuple<QByteArray,qsizetype, reason, QList<float>> ar =
+            Serializator::binaryDeserialize<QByteArray,qsizetype, reason, QList<float>>(byte);
         data.function = std::get<0>(ar);
         data.sizeArray = std::get<1>(ar);
         data.ReasonForTransfer = std::get<2>(ar);
         data.dataProtokol.append(std::get<3>(ar));
         m_nNextBlockSize = 0;
     }
-    dataReceived(data);
+    if(data.dataProtokol.size()== data.sizeArray)
+        dataReceived(data);
+
+    data.dataProtokol.clear();
+    data.sizeArray = 0;
 }
 
 void TcpServer::sendToClient(QTcpSocket* pSocket,struct Message data)

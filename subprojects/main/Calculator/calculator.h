@@ -28,7 +28,7 @@ public:
      * \param <funcArgsRange> Значения аргумента функции
      * \return Массив вычисленных значений функции от соответсвующих аргументов
      */
-    QVector<float> CalculateFuncRange(
+    QList<float> CalculateFuncRange(
         const QByteArray& func,
         const QVector<float>& funcArgsRange);
 private:

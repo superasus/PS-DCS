@@ -38,7 +38,7 @@ private:
      //cn
     QString func;
     void messageProcessing(QTcpSocket* pSocket, struct Message dataProcessing);
-//    struct Message data;
+   struct Message data;
 public slots:
     void slotReadyRead();
 

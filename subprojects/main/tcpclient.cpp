@@ -62,39 +62,18 @@ void TcpClient::slotReadyRead()
         qDebug() << "read...";
         QByteArray byte;
         in >> byte;
-        std::tuple<QString,qsizetype, reason, QList<float>> ar = Serializator::binaryDeserialize<QString,qsizetype, reason, QList<float>>(byte);
+        std::tuple<QByteArray,qsizetype, reason, QList<float>> ar =
+            Serializator::binaryDeserialize<QByteArray,qsizetype, reason, QList<float>>(byte);
         data.function = std::get<0>(ar);
         data.sizeArray = std::get<1>(ar);
         data.ReasonForTransfer = std::get<2>(ar);
         data.dataProtokol.append(std::get<3>(ar));
-//            switch(data.ReasonForTransfer)
-//            {
-//                case(reason::PROCESSING):
-//                if(data.dataProtokol.size() == data.sizeArray)
-//                {
-//                    data.sizeArray = data.dataProtokol.size();
-//                    data.ReasonForTransfer = BACK;
-//                    for(int i = 0; i != data.sizeArray; i++)
-//                        data.dataProtokol[i] = data.dataProtokol[i] + 1;
-//                    sendMeesageToServer(data);
-//                    data.dataProtokol.clear();
-//                    data.function = "";
-//                    data.sizeArray = 0;
-//                }
-//                break;
-//                case (reason::END):
-//                if(data.dataProtokol.size() == data.sizeArray)
-//                {
-////                    qDebug() << data.dataProtokol;
-//                    data.dataProtokol.clear();
-//                    data.function = "";
-//                    data.sizeArray = 0;
-//                }
-//             break;
-//             }
         m_nNextBlockSize = 0;
     }
-    dataReceived(data);
+    if(data.dataProtokol.size()== data.sizeArray)
+        dataReceived(data);
+
+    data.dataProtokol.clear();
 }
 
 

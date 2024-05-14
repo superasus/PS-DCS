@@ -8,6 +8,7 @@
 #include "serializator.h"
 #include "message.h"
 #include "tcpclient.h"
+#include "Calculator/calculator.h"
 
 class TcpServer : public QTcpServer
 {
@@ -21,11 +22,10 @@ public:
      * \param data - струкутура с данными
      */
     void sendMeesageToClient(QTcpSocket* pSocket,struct Message data);
-
+    QVector<QTcpSocket*> localClient;
 private:
     QTcpSocket *socket;
-    QVector<QTcpSocket*> localClient;
-//    struct Message data; //cn
+    struct Message data; //cn
     quint16 m_nNextBlockSize; //хранения длины следующего, полученного от сокета блока
     void sendToClient(QTcpSocket* pSocket,struct Message data);
 //    void sendMeesageToClient(QTcpSocket* pSocket,struct Message data);
