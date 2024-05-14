@@ -19,8 +19,18 @@ CppApplication {
         ]
     }
 
+    Group{
+        name: "mathsyntaxtreetest"
+        files:[
+            "mathsyntaxtreetest.cpp",
+            "mathsyntaxtreetest.h",
+            "../main/calculator/mathsyntaxtree.h",
+            "../main/calculator/mathsyntaxtree.cpp",
+        ]
+    }
+
     files: [
-        "main.cpp"
+        "main.cpp",
     ]
 
 
