@@ -11,10 +11,14 @@ QtApplication {
 
     Group{
         name: "tcp"
-        files: ["tcpclient.cpp",
+        files: [
+            "message.cpp",
+            "message.h",
+            "tcpclient.cpp",
             "tcpclient.h",
             "tcpserver.cpp",
-            "tcpserver.h"]
+            "tcpserver.h",
+        ]
     }
 
     Group{
@@ -37,6 +41,8 @@ QtApplication {
     }
 
     files: [
+        "countnode.cpp",
+        "countnode.h",
         "main.cpp",
         "serializator.h",
     ]

@@ -1,6 +1,6 @@
 #ifndef MATHTOKENIZER_H
 #define MATHTOKENIZER_H
-#include <qtypes.h>
+
 #include <QByteArray>
 #include <QVector>
 #include <cctype>
