@@ -17,7 +17,7 @@ public:
     ~TcpServer();
 
 private:
-    QTcpSocket *socket;
+    QTcpSocket *socketProblembook;
     QVector<QTcpSocket*> localClient;
     struct Message data; //cn
     quint16 m_nNextBlockSize; //хранения длины следующего, полученного от сокета блока

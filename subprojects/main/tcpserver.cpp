@@ -22,7 +22,7 @@ void TcpServer::incomingConnection(qintptr socketDescriptor)
     socket->setSocketDescriptor(socketDescriptor);
     connect(socket, SIGNAL(readyRead()),    this, SLOT(slotReadyRead()));
     connect(socket, SIGNAL(disconnected()), socket, SLOT(deleteLater()));
-    localClient.push_front(socket);
+    localClient.push_back(socket);
 }
 
 void TcpServer::slotReadyRead()
@@ -110,6 +110,11 @@ void TcpServer::messageProcessing(QTcpSocket* pSocket, Message dataProcessing)
         case reason::PROBLEMBOOK:
             if(data.dataProtokol.size() == dataProcessing.sizeArray)
             {
+                socketProblembook = pSocket;
+                if(localClient.size() > 1)
+                {
+                    localClient.pop_back();
+                }
                 separationInProblembook(data);
                 data.dataProtokol.clear();
                 data.ReasonForTransfer = dataProcessing.ReasonForTransfer;
@@ -122,7 +127,7 @@ void TcpServer::messageProcessing(QTcpSocket* pSocket, Message dataProcessing)
             {
                 data.sizeArray = data.dataProtokol.size();
                 data.ReasonForTransfer = END;
-                sendMeesageToClient(pSocket, data);
+                sendMeesageToClient(socketProblembook, data);
                 data.dataProtokol.clear();
                 data.ReasonForTransfer = dataProcessing.ReasonForTransfer;
                 data.function = "";
@@ -155,5 +160,8 @@ void TcpServer::separationInProblembook(Message dataProcessing)
         timeData.ReasonForTransfer = PROCESSING;
         timeData.function = dataProcessing.function;
         sendMeesageToClient(localClient[i], timeData);
+        timeData.dataProtokol.clear();
+        timeData.sizeArray = 0;
+        timeData.function = "";
     }
 }
