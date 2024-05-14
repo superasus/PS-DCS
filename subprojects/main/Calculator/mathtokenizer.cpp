@@ -29,14 +29,12 @@ QVector<MathTokenizer::Token> MathTokenizer::tokenizeMathExpr(const QByteArray &
         else if (std::isalpha(expr[i]) ||
             (isMinusToken(expr, i, previousTokenType) && std::isalpha(expr[i+1])))
         {
-            Token t = readAlphabeticSequence(expr, i);
-            if (t.type() == TOKEN_TYPE::ARGUMENT &&
-                (previousTokenType == TOKEN_TYPE::NUMBER ||
-                    previousTokenType == TOKEN_TYPE::END_SUB_EXPR))
+            if (previousTokenType == TOKEN_TYPE::NUMBER ||
+                previousTokenType == TOKEN_TYPE::END_SUB_EXPR)
 
                 answer.append(m_multiplicativeTokenOperator);
 
-            answer.append(t);
+            answer.append(readAlphabeticSequence(expr, i));
         }
         else if (expr[i] == '(' || expr[i] == ')')
         {

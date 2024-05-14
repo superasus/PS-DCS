@@ -268,3 +268,98 @@ void MathTokenizerTests::COMMON_BIG_EXPRESSION_TEST()
         };
     QCOMPARE(received, expected);
 }
+
+void MathTokenizerTests::FIND_UNARY_MINUS()
+{
+    MathTokenizer mt;
+    QByteArray simpleNum = "-3";
+    QByteArray simpleArg = "-x";
+    QByteArray simpleFunc = "-lg";
+    QByteArray simpleExpr = "2+-3";
+
+    Tokens receivedNum = mt.tokenizeMathExpr(simpleNum);
+    Tokens receivedArg = mt.tokenizeMathExpr(simpleArg);
+    Tokens receivedFunc = mt.tokenizeMathExpr(simpleFunc);
+    Tokens receivedExpr = mt.tokenizeMathExpr(simpleExpr);
+
+    Tokens expectNum = {Token("-3", TOKEN_TYPE::NUMBER)};
+    Tokens expectArg = {Token("-x", TOKEN_TYPE::ARGUMENT)};
+    Tokens expectFunc = {Token("-lg", TOKEN_TYPE::FUNC)};
+    Tokens expectExpr =
+    {
+        Token("2", TOKEN_TYPE::NUMBER),
+        Token("+", TOKEN_TYPE::OPERATOR),
+        Token("-3", TOKEN_TYPE::NUMBER)
+    };
+
+    QCOMPARE(receivedNum, expectNum);
+    QCOMPARE(receivedArg, expectArg);
+    QCOMPARE(receivedFunc, expectFunc);
+    QCOMPARE(receivedExpr, expectExpr);
+}
+
+void MathTokenizerTests::FIND_IMPLICET_MULT()
+{
+    MathTokenizer mt;
+    QByteArray simpleArg = "2x";
+    QByteArray betweenArg = "2x3";
+    QByteArray subExprArg = "x(2+3)";
+    QByteArray subExprNum = "2(2+3)";
+    QByteArray funcNum = "2sin(x)";
+
+    Tokens receivedArg = mt.tokenizeMathExpr(simpleArg);
+    Tokens receivedArgBetween = mt.tokenizeMathExpr(betweenArg);
+    Tokens receivedSubExprArg = mt.tokenizeMathExpr(subExprArg);
+    Tokens receivedSubExprNum = mt.tokenizeMathExpr(subExprNum);
+    Tokens receivedFuncNum = mt.tokenizeMathExpr(funcNum);
+    Tokens expectArg =
+        {
+            Token("2", TOKEN_TYPE::NUMBER),
+            Token("*", TOKEN_TYPE::OPERATOR),
+            Token("x", TOKEN_TYPE::ARGUMENT)
+        };
+    Tokens expectArgBetween =
+        {
+            Token("2", TOKEN_TYPE::NUMBER),
+            Token("*", TOKEN_TYPE::OPERATOR),
+            Token("x", TOKEN_TYPE::ARGUMENT),
+            Token("*", TOKEN_TYPE::OPERATOR),
+            Token("3", TOKEN_TYPE::NUMBER)
+        };
+    Tokens expectSubExprArg =
+        {
+            Token("x", TOKEN_TYPE::ARGUMENT),
+            Token("*", TOKEN_TYPE::OPERATOR),
+            Token("(", TOKEN_TYPE::START_SUB_EXPR),
+            Token("2", TOKEN_TYPE::NUMBER),
+            Token("+", TOKEN_TYPE::OPERATOR),
+            Token("3", TOKEN_TYPE::NUMBER),
+            Token(")", TOKEN_TYPE::END_SUB_EXPR),
+        };
+    Tokens expectSubExprNum =
+        {
+            Token("2", TOKEN_TYPE::NUMBER),
+            Token("*", TOKEN_TYPE::OPERATOR),
+            Token("(", TOKEN_TYPE::START_SUB_EXPR),
+            Token("2", TOKEN_TYPE::NUMBER),
+            Token("+", TOKEN_TYPE::OPERATOR),
+            Token("3", TOKEN_TYPE::NUMBER),
+            Token(")", TOKEN_TYPE::END_SUB_EXPR),
+        };
+
+    Tokens expectFuncNum =
+        {
+            Token("2", TOKEN_TYPE::NUMBER),
+            Token("*", TOKEN_TYPE::OPERATOR),
+            Token("sin", TOKEN_TYPE::FUNC),
+            Token("(", TOKEN_TYPE::START_SUB_EXPR),
+            Token("x", TOKEN_TYPE::ARGUMENT),
+            Token(")", TOKEN_TYPE::END_SUB_EXPR)
+        };
+
+    QCOMPARE(receivedArg, expectArg);
+    QCOMPARE(receivedArgBetween, expectArgBetween);
+    QCOMPARE(receivedSubExprArg, expectSubExprArg);
+    QCOMPARE(receivedSubExprNum, expectSubExprNum);
+    QCOMPARE(receivedFuncNum, expectFuncNum);
+}

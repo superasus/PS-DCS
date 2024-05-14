@@ -19,6 +19,9 @@ private slots:
     void NESTED_SUBEXPRESSION_TEST();
     void FUNCS_TEST();
     void COMMON_BIG_EXPRESSION_TEST();
+
+    void FIND_UNARY_MINUS();
+    void FIND_IMPLICET_MULT();
 };
 
 #endif // MATHTOKENIZERTESTS_H
