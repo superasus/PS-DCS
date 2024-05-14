@@ -1,7 +1,8 @@
 #include <QTest>
 #include "serializatortests.h"
+#include "tokenizertests.h"
 int main()
 {
-    SerializatorTests st;
-    return QTest::qExec(&st);
+    TokenizerTests tt;
+    return QTest::qExec(&tt);
 }

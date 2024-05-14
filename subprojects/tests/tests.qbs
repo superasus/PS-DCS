@@ -9,8 +9,18 @@ CppApplication {
         files:["serializatortests.cpp", "serializatortests.h"]
     }
 
+    Group{
+        name: "tokenizertests"
+        files:[
+            "tokenizertests.cpp",
+            "tokenizertests.h",
+            "../main/calculator/mathtokenizer.h",
+            "../main/calculator/mathtokenizer.cpp"
+        ]
+    }
+
     files: [
-        "main.cpp",
+        "main.cpp"
     ]
 
 

@@ -24,7 +24,7 @@ QtApplication {
 
     Group{
         name : "Calculator"
-        files: ["Calculator/mathtokenizer.cpp", "Calculator/mathtokenizer.h"]
+        files: ["calculator/mathtokenizer.cpp", "calculator/mathtokenizer.h"]
     }
 
     files: [
