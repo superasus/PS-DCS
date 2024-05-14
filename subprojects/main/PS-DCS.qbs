@@ -26,9 +26,11 @@ QtApplication {
         name : "calculator"
         files: [
             "Calculator/mathtokenizer.cpp",
-            "Calculator/mathtokenizer.h"
+            "Calculator/mathtokenizer.h",
             "Calculator/mathsyntaxtree.cpp",
-            "Calculator/mathsyntaxtree.h",]
+            "Calculator/mathsyntaxtree.h",
+            "Calculator/calculator.cpp",
+            "Calculator/calculator.h",]
     }
 
     files: [
