@@ -1,8 +1,8 @@
 #include <QTest>
 #include "serializatortests.h"
-#include "discoveryservicetests.h"
+#include "mathtokenizertests.h"
 int main()
 {
-    DiscoveryServiceTests st;
-    return QTest::qExec(&st);
+    MathTokenizerTests tt;
+    return QTest::qExec(&tt);
 }

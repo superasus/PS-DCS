@@ -15,6 +15,26 @@ CppApplication {
         "../main/discoveryService.cpp"]
     }
 
+    Group{
+        name: "mathtokenizertests"
+        files:[
+            "mathtokenizertests.cpp",
+            "mathtokenizertests.h",
+            "../main/calculator/mathtokenizer.h",
+            "../main/calculator/mathtokenizer.cpp",
+        ]
+    }
+
+    Group{
+        name: "mathsyntaxtreetest"
+        files:[
+            "mathsyntaxtreetest.cpp",
+            "mathsyntaxtreetest.h",
+            "../main/calculator/mathsyntaxtree.h",
+            "../main/calculator/mathsyntaxtree.cpp",
+        ]
+    }
+
     files: [
         "main.cpp"
     ]

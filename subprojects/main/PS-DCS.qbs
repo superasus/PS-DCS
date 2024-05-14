@@ -25,9 +25,21 @@ QtApplication {
         ]
     }
 
+    Group{
+        name : "calculator"
+        files: [
+            "Calculator/mathtokenizer.cpp",
+            "Calculator/mathtokenizer.h",
+            "Calculator/mathsyntaxtree.cpp",
+            "Calculator/mathsyntaxtree.h",
+            "Calculator/calculator.cpp",
+            "Calculator/calculator.h",]
+    }
+
     files: [
         "main.cpp",
-        "serializator.h"]
+        "serializator.h",
+    ]
 
     Depends {
         name: "Qt"
