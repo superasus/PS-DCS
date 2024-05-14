@@ -129,12 +129,21 @@ namespace __service{
             errorMessage.append(typeid(T).name());
             throw std::invalid_argument(errorMessage.toStdString());
         }
-        quint8* buf = new quint8[sizeof(typename T::value_type)];
-        for (quint32 i = 0; i < containerSize; i++)
+
+        if constexpr (is_container<typename T::value_type>::value)
         {
-            answer.append(binaryDeserializeElement<typename T::value_type>(bytes, byteIndex, buf));
+            for (quint32 i = 0; i < containerSize; ++i)
+                answer.append(binaryDeserializeElement<typename T::value_type>(bytes, byteIndex));
         }
-        delete[] buf;
+        else
+        {
+            quint8* buf = new quint8[sizeof(typename T::value_type)];
+            for (quint32 i = 0; i < containerSize; ++i)
+            {
+                answer.append(binaryDeserializeElement<typename T::value_type>(bytes, byteIndex, buf));
+            }
+            delete[] buf;
+        }
         return answer;
     }
 

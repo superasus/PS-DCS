@@ -3,6 +3,7 @@
 #include "mathtokenizertests.h"
 int main()
 {
-    MathTokenizerTests tt;
-    return QTest::qExec(&tt);
+    SerializatorTests st;
+    MathTokenizerTests mt;
+    return QTest::qExec(&st) || QTest::qExec(&mt);
 }

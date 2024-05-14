@@ -101,7 +101,8 @@ void SerializatorTests::MIXED_TYPES_TEST()
 }
 
 void SerializatorTests::MIXED_TYPES_TEST_2()
-{    struct point{
+{
+    struct point{
         quint32 x;
         quint32 y;
         quint32 z;
@@ -126,4 +127,19 @@ void SerializatorTests::MIXED_TYPES_TEST_2()
     QCOMPARE(std::get<3>(serializatorResult), p);
     QCOMPARE(std::get<4>(serializatorResult), string);
     QCOMPARE(std::get<5>(serializatorResult), bytes);
+}
+
+void SerializatorTests::CONTAINER_WITH_CONTAINERS_TEST()
+{
+    QVector<QVector<float>> vec =
+        {
+            {10.43, 5, 95.10},
+            {3.44, 123.123},
+            {45.455, 23.23, 12355, 10, 10, 12}
+        };
+    auto serializatorResult =
+        Serializator::binaryDeserialize<QVector<QVector<float>>>(
+        Serializator::binarySerialize(vec));
+
+    QCOMPARE(std::get<0>(serializatorResult), vec);
 }

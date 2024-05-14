@@ -21,6 +21,7 @@ private slots:
     void FUNDAMENTAL_TYPES_TEST();
     void MIXED_TYPES_TEST();
     void MIXED_TYPES_TEST_2();
+    void CONTAINER_WITH_CONTAINERS_TEST();
 };
 
 #endif // SERIALIZATORTESTS_H
