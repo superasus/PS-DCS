@@ -18,8 +18,11 @@ QtApplication {
     }
 
     Group{
-        name: "discovery-service"
-        files: ["discovery-service.h", "discovery-service.cpp"]
+        name: "discoveryService"
+        files: [
+            "discoveryService.cpp",
+            "discoveryService.h",
+        ]
     }
 
     Group{
