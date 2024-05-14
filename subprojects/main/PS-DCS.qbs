@@ -22,9 +22,15 @@ QtApplication {
         files: ["discovery-service.h", "discovery-service.cpp"]
     }
 
+    Group{
+        name : "Calculator"
+        files: ["Calculator/mathtokenizer.cpp", "Calculator/mathtokenizer.h"]
+    }
+
     files: [
         "main.cpp",
-        "serializator.h"]
+        "serializator.h",
+    ]
 
     Depends {
         name: "Qt"
