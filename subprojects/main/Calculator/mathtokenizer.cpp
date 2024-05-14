@@ -6,12 +6,16 @@ MathTokenizer::Token::Token(const QByteArray &value, TOKEN_TYPE type)
 QByteArray MathTokenizer::Token::value() const noexcept
 { return m_value; }
 
+bool MathTokenizer::Token::operator==(const Token &other) const noexcept
+{ return m_type==other.type() && m_value == other.value(); }
+
 QVector<MathTokenizer::Token> MathTokenizer::tokenizeMathExpr(const QByteArray &expr) const
 {
     QVector<Token> answer;
     quint32 i = 0;
     while (i < expr.size())
     {
+        if (expr[i] == ' ' || expr[i] == '\t' || expr[i] == '\n' || expr[i] == '\r') {++i; continue;}
         if (i == 0) {answer.append(readFirstToken(expr, i)); continue;}
         TOKEN_TYPE previousTokenType = answer.back().type();
         if (std::isdigit(expr[i]) ||
@@ -91,7 +95,8 @@ MathTokenizer::Token MathTokenizer::readAlphabeticSequence(const QByteArray &exp
     while (offset<expr.size() && std::isalpha(expr[offset]))
         word.append(expr[offset++]);
 
-    return Token(word, word.size() <= 2 ? TOKEN_TYPE::ARGUMENT : TOKEN_TYPE::FUNC);
+    return Token(word, word.size() ==1 || (word.size() == 2 && word[0] == '-')  ?
+            TOKEN_TYPE::ARGUMENT : TOKEN_TYPE::FUNC);
 }
 
 MathTokenizer::Token MathTokenizer::readSubExprToken(const QByteArray &expr, quint32 &offset) const noexcept

@@ -25,7 +25,7 @@ public:
         Token(const QByteArray& value, TOKEN_TYPE type);
         QByteArray  value() const noexcept;
         constexpr TOKEN_TYPE type() const noexcept {return m_type; }
-        ~Token() = default;
+        bool operator==(const Token& other) const noexcept;
     private:
         TOKEN_TYPE m_type;
         QByteArray m_value;

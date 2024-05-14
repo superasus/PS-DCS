@@ -10,12 +10,12 @@ CppApplication {
     }
 
     Group{
-        name: "tokenizertests"
+        name: "mathtokenizertests"
         files:[
-            "tokenizertests.cpp",
-            "tokenizertests.h",
+            "mathtokenizertests.cpp",
+            "mathtokenizertests.h",
             "../main/calculator/mathtokenizer.h",
-            "../main/calculator/mathtokenizer.cpp"
+            "../main/calculator/mathtokenizer.cpp",
         ]
     }
 
