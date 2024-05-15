@@ -41,9 +41,9 @@ QtApplication {
     }
 
     files: [
+        "clasternodemain.cpp",
         "countnode.cpp",
         "countnode.h",
-        "main.cpp",
         "serializator.h",
     ]
 
