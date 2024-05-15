@@ -43,7 +43,7 @@ public slots:
     void slotReadyRead();
 
 signals:
-    void dataReceived(const Message &data);
+    void dataReceived(const Message &data, QTcpSocket* pSocket);
 };
 
 #endif // TCPCLIENT_H

@@ -2,9 +2,11 @@
 #include "Calculator/calculator.h"
 #include <QTextStream>
 #include "UIhandler.h"
+#include "tcpclient.h"
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+    TcpClient client(2323);
     Calculator calc;
     UIHandler uiHandler;
     QByteArray func = uiHandler.takeFunc("Enter your func: ");

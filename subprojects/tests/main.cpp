@@ -6,5 +6,6 @@
 int main()
 {
     CalculatorTests ct;
-    return QTest::qExec(&ct);
+    MathSyntaxTreeTest mstt;
+    return QTest::qExec(&ct) || QTest::qExec(&mstt);
 }

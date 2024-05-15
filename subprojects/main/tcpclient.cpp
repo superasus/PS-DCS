@@ -19,7 +19,15 @@ void TcpClient::sendToServer(struct Message data)
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_15);
     out << quint16(0);
-    out << Serializator::binarySerialize(data.function, data.sizeArray, data.ReasonForTransfer, data.dataProtokol, data.dataOffset);
+
+    out << Serializator::binarySerialize(
+        data.function,
+        data.sizeArray,
+        data.ReasonForTransfer,
+        data.dataProtokol,
+        data.dataOffset,
+        data.taskerId);
+
     out.device()->seek(0);
     out << quint16(arrBlock.size() - sizeof(quint16));
     socket->write(arrBlock);
@@ -37,6 +45,7 @@ void TcpClient::sendMeesageToServer(struct Message dataList){
          timeProtokol.ReasonForTransfer = dataList.ReasonForTransfer;
          timeProtokol.sizeArray = dataList.sizeArray;
          timeProtokol.dataOffset = dataList.dataOffset;
+         timeProtokol.taskerId = dataList.taskerId;
          sendToServer(timeProtokol);
      }
 }
@@ -63,17 +72,19 @@ void TcpClient::slotReadyRead()
         qDebug() << "read...";
         QByteArray byte;
         in >> byte;
-        std::tuple<QByteArray,qsizetype, reason, QList<float>, quint32> ar =
-            Serializator::binaryDeserialize<QByteArray,qsizetype, reason, QList<float>, quint32>(byte);
+        auto ar =
+            Serializator::binaryDeserialize<QByteArray,qsizetype, reason, QList<float>, quint32, quint32>(byte);
         data.function = std::get<0>(ar);
         data.sizeArray = std::get<1>(ar);
         data.ReasonForTransfer = std::get<2>(ar);
         data.dataProtokol.append(std::get<3>(ar));
+        data.dataProtokol.append(std::get<4>(ar));
+        data.dataProtokol.append(std::get<5>(ar));
         m_nNextBlockSize = 0;
     }
     if(data.dataProtokol.size()== data.sizeArray)
     {
-        emit dataReceived(data);
+        emit dataReceived(data, nullptr);
         data.dataProtokol.clear();
     }
 }

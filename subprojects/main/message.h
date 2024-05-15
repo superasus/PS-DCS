@@ -20,6 +20,7 @@ struct Message
     qsizetype sizeArray;
     QList<float> dataProtokol;
     quint32 dataOffset;
+    quint32 taskerId;
 };
 
 #endif // MESSAGE_H
