@@ -24,9 +24,6 @@ float MathSyntaxTree::value() const
     return m_root->value();
 }
 
-QSharedPointer<MathSyntaxTree::Node> MathSyntaxTree::root() const noexcept
-{return m_root;}
-
 void MathSyntaxTree::emplaceOperatorNode(QSharedPointer<OperatorNode> node)
 {
     if (!m_root) {m_root = node; return;}
@@ -180,7 +177,7 @@ QSharedPointer<MathSyntaxTree::Node> MathSyntaxTree::buildSubTree(const Tokens &
 {
     MathSyntaxTree newTree(config, m_ArgValue);
     newTree.buildTree(tokens);
-    return newTree.root();
+    return newTree.m_root;
 }
 
 void MathSyntaxTree::setArgumentValue(float value)
