@@ -1,7 +1,7 @@
 import qbs
 
 Project {
-    property bool withTests: false
+    property bool withTests: true
 
     SubProject {
         filePath: "subprojects/main/clasternode.qbs"
