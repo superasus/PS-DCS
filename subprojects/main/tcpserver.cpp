@@ -34,7 +34,7 @@ void TcpServer::slotReadyRead()
     {
         if (!m_nNextBlockSize)
         {
-            if (pClientSocket->bytesAvailable() < static_cast<qint64>(sizeof(quint16)))
+            if (pClientSocket->bytesAvailable() < sizeof(quint16))
             {
                 break;
             }
@@ -47,19 +47,21 @@ void TcpServer::slotReadyRead()
         qDebug() << "read...";
         QByteArray byte;
         in >> byte;
-        std::tuple<QByteArray,qsizetype, reason, QList<float>> ar =
-            Serializator::binaryDeserialize<QByteArray,qsizetype, reason, QList<float>>(byte);
+        std::tuple<QByteArray,qsizetype, reason, QList<float>, quint32> ar =
+            Serializator::binaryDeserialize<QByteArray,qsizetype, reason, QList<float>, quint32>(byte);
         data.function = std::get<0>(ar);
         data.sizeArray = std::get<1>(ar);
         data.ReasonForTransfer = std::get<2>(ar);
         data.dataProtokol.append(std::get<3>(ar));
         m_nNextBlockSize = 0;
+
     }
     if(data.dataProtokol.size()== data.sizeArray)
-        dataReceived(data);
-
-    data.dataProtokol.clear();
-    data.sizeArray = 0;
+    {
+        emit dataReceived(data, pClientSocket);
+        data.dataProtokol.clear();
+        data.sizeArray = 0;
+    }
 }
 
 void TcpServer::sendToClient(QTcpSocket* pSocket,struct Message data)
@@ -68,7 +70,7 @@ void TcpServer::sendToClient(QTcpSocket* pSocket,struct Message data)
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_15);
     out << quint16(0);
-    out << Serializator::binarySerialize(data.function, data.sizeArray, data.ReasonForTransfer, data.dataProtokol);
+    out << Serializator::binarySerialize(data.function, data.sizeArray, data.ReasonForTransfer, data.dataProtokol, data.dataOffset);
     out.device()->seek(0);
     out << quint16(arrBlock.size() - sizeof(quint16));
     pSocket->write(arrBlock);
@@ -86,6 +88,7 @@ void TcpServer::sendMeesageToClient(QTcpSocket* pSocket,struct Message dataList)
          timeProtokol.function = dataList.function;
          timeProtokol.ReasonForTransfer = dataList.ReasonForTransfer;
          timeProtokol.sizeArray = dataList.sizeArray;
+         timeProtokol.dataOffset = dataList.dataOffset;
          sendToClient(pSocket,timeProtokol);
      }
 }

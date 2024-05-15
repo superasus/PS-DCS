@@ -10,5 +10,6 @@ int main(int argc, char *argv[])
     QByteArray func = uiHandler.takeFunc("Enter your func: ");
     QList<float> data = uiHandler.takeData("Enter your data. Use space like delimiter: ");
     uiHandler.showResult(calc.CalculateFuncRange(func, data));
+
     return a.exec();
 }

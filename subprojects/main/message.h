@@ -19,6 +19,7 @@ struct Message
     reason ReasonForTransfer;
     qsizetype sizeArray;
     QList<float> dataProtokol;
+    quint32 dataOffset;
 };
 
 #endif // MESSAGE_H

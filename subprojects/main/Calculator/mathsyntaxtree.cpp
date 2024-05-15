@@ -149,7 +149,7 @@ void MathSyntaxTree::buildTree(const Tokens& tokens)
 
         case TOKEN_TYPE::FUNC:
         {
-            if (isMinus) tokenValue = tokenValue[tokenValue.size()-1](tokenValue.size()-1);
+//            if (isMinus) tokenValue = tokenValue[tokenValue.size()-1](tokenValue.size()-1);
             if(!config.unaryFuncSet.contains(tokenValue))  throw std::invalid_argument("syntaxError!");
             auto func = config.unaryFuncSet[tokenValue];
             buf = QSharedPointer<FuncNode>::create(func, buildSubTree(readSubExpr(tokens, ++i)), isMinus);

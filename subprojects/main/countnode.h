@@ -11,22 +11,23 @@ class CountNode : public QObject
 {
     Q_OBJECT
 public:
-    CountNode();
+    CountNode(QObject* parent = 0);
 
 private:
     QList<QList<float>> mapReduce(const QList<float>& data);
 
-    TcpServer m_server{2323};
-    QVector<TcpClient*> m_vecClient;
+    TcpServer* m_server;
+    QVector<TcpClient> m_vecClient;
     Calculator m_cal();
     DiscoveryService m_ds{45455};
     bool m_isReady;
     void processTaskerMessage(const QByteArray& func, const QList<float> data);
-    void processProcessingMessage(const QByteArray& func, const QList<float> data);
+    void processProcessingMessage(const QByteArray& func, const QList<float> data, QTcpSocket* pSocket);
     void processBackMessage(const QList<float> data);
-private slots:
-    void ready();
-    void processMessage(const Message& Message);
+    void setupConnection();
+public slots:
+//    void ready() ;
+    void processMessage(const Message& Message, QTcpSocket* pSocket = nullptr);
 };
 
 #endif // COUNTNODE_H
