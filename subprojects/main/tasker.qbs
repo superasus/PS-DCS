@@ -33,6 +33,7 @@ QtApplication {
     }
 
     files: [
+        "serializator.h",
         "UIhandler.cpp",
         "UIhandler.h",
         "taskermain.cpp",
