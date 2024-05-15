@@ -36,6 +36,8 @@ QtApplication {
         "serializator.h",
         "UIhandler.cpp",
         "UIhandler.h",
+        "tasker.cpp",
+        "tasker.h",
         "taskermain.cpp",
     ]
 
