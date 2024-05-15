@@ -33,8 +33,8 @@ QtApplication {
     }
 
     files: [
-        "inputhandler.cpp",
-        "inputhandler.h",
+        "UIhandler.cpp",
+        "UIhandler.h",
         "taskermain.cpp",
     ]
 

@@ -1,19 +1,20 @@
-#ifndef INPUTHANDLER_H
-#define INPUTHANDLER_H
+#ifndef UIHANDLER_H
+#define UIHANDLER_H
 #include <QTextStream>
 #include <QList>
 #include <QString>
 #include <QByteArray>
-class InputHandler {
+class UIHandler {
 
 public:
     QByteArray takeFunc(const QString& inviteMessage);
     QList<float> takeData(const QString& inviteMessage);
-    InputHandler() = default;
+    void showResult(const QList<float> data);
+    UIHandler() = default;
 private:
-    QList<float> parseData(const QByteArray& data);
+    QList<float> parseData(const QString&data);
     QTextStream m_in{stdin};
     QTextStream m_out{stdout};
 };
 
-#endif // INPUTHANDLER_H
+#endif // UIHANDLER_H

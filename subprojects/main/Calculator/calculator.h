@@ -30,7 +30,7 @@ public:
      */
     QList<float> CalculateFuncRange(
         const QByteArray& func,
-        const QVector<float>& funcArgsRange);
+        const QList<float>& funcArgsRange);
 private:
     static const MathSyntaxTreeConfig m_config;
     static MathSyntaxTree m_mst;

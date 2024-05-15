@@ -1,22 +1,14 @@
 #include <QCoreApplication>
 #include "Calculator/calculator.h"
 #include <QTextStream>
+#include "UIhandler.h"
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     Calculator calc;
-    QTextStream in(stdin);
-    QTextStream out(stdout);
-    QByteArray func, data;
-    QList<float> dataToProcess;
-    out << "Enter func: ";
-    in >> func;
-    out << "Enter data. Use space like delmiter";
-    in >> data;
-    QByteArray buf;
-    for (const auto& sim : data) {
-
-
-    }
+    UIHandler uiHandler;
+    QByteArray func = uiHandler.takeFunc("Enter your func: ");
+    QList<float> data = uiHandler.takeData("Enter your data. Use space like delimiter: ");
+    uiHandler.showResult(calc.CalculateFuncRange(func, data));
     return a.exec();
 }

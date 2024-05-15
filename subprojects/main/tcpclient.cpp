@@ -49,7 +49,7 @@ void TcpClient::slotReadyRead()
     {
         if (!m_nNextBlockSize)
         {
-            if (socket->bytesAvailable() < sizeof(quint16))
+            if (socket->bytesAvailable() < static_cast<qint64>(sizeof(quint16)))
             {
                 break;
             }
@@ -71,7 +71,7 @@ void TcpClient::slotReadyRead()
         m_nNextBlockSize = 0;
     }
     if(data.dataProtokol.size()== data.sizeArray)
-        dataReceived(data);
+        emit dataReceived(data);
 
     data.dataProtokol.clear();
 }
