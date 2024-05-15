@@ -55,12 +55,34 @@ public:
     MathSyntaxTree(const MathSyntaxTreeConfig& config);
     MathSyntaxTree(const MathSyntaxTree&) = delete;
     MathSyntaxTree(const MathSyntaxTree&&) = delete;
+    /*!
+     * \brief Cтроит синтаксическое дерево на основе переданного математического выражения
+     * \param <expr> Математическое выражение
+     */
     void buildTree(const QByteArray& expr);
+    /*!
+     * \brief Cтроит синтаксическое дерево на основе переданного токенов математического выражения,
+     * полученных из математематического токенайзера
+     * \param <tokens> Набор токенов математического языка
+     */
     void buildTree(const Tokens& tokens);
+    /*!
+     * \brief вычисляет значение построенного математическгого дерева
+     */
     float value() const;
+    /*!
+     * \brief возвращает корень математического дерева
+     */
     QSharedPointer<Node> root() const noexcept;
+    /*!
+     * \brief Устанавливает значение аргумента. Это значение в дальнейшем будет использоваться в качестве
+     * значения аргументов в математических выраженях, если они в них будут
+     */
     void setArgumentValue(float value);
     MathSyntaxTreeConfig config = m_defaultConfig;
+    /*!
+     * \brief Конфигурация математического дерева по умолчанию
+     */
     MathSyntaxTreeConfig defaultConfig() const noexcept;
 private:
 

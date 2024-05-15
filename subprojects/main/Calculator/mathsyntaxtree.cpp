@@ -19,6 +19,7 @@ constexpr quint32 MathSyntaxTree::OperatorNode::priority() const noexcept
 
 float MathSyntaxTree::value() const
 {
+    if(!m_root) throw std::invalid_argument("Tree not builded!");
     if(m_hasArgumen && !m_isArgumentSetted) throw std::invalid_argument("Arg value not setted!");
     return m_root->value();
 }
