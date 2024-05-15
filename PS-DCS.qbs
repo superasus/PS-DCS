@@ -4,9 +4,17 @@ Project {
     property bool withTests: true
 
     SubProject {
-        filePath: "subprojects/main/PS-DCS.qbs"
+        filePath: "subprojects/main/clasternode.qbs"
         Properties {
-            name: "PS-DCS"
+            name: "clasternode"
+        }
+        inheritProperties: true
+    }
+
+    SubProject {
+        filePath: "subprojects/main/tasker.qbs"
+        Properties {
+            name: "tasker"
         }
         inheritProperties: true
     }
