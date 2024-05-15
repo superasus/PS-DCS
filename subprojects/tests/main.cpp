@@ -2,8 +2,9 @@
 #include "serializatortests.h"
 #include "mathtokenizertests.h"
 #include "mathsyntaxtreetest.h"
+#include "calculatortests.h"
 int main()
 {
-    MathSyntaxTreeTest mstt;
-    return QTest::qExec(&mstt);
+    CalculatorTests ct;
+    return QTest::qExec(&ct);
 }

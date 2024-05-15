@@ -35,8 +35,18 @@ CppApplication {
         ]
     }
 
+    Group{
+        name: "calculatortests"
+        files:[
+            "calculatortests.cpp",
+            "calculatortests.h",
+            "../main/calculator/calculator.h",
+            "../main/calculator/calculator.cpp",
+        ]
+    }
+
     files: [
-        "main.cpp"
+        "main.cpp",
     ]
     Depends {
         name: "Qt"

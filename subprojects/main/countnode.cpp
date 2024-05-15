@@ -38,12 +38,12 @@ void CountNode::processTaskerMessage(const QByteArray &func, const QList<float> 
     }
 }
 
-void CountNode::processProcessingMessage(const QByteArray &func, const QList<float> data)
+void CountNode::processProcessingMessage(const QByteArray &/*func*/, const QList<float> /*data*/)
 {
     QList<float> calculated;
 }
 
-void CountNode::processBackMessage(const QList<float> data)
+void CountNode::processBackMessage(const QList<float> /*data*/)
 {
 
 }

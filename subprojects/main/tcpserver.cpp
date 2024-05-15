@@ -34,7 +34,7 @@ void TcpServer::slotReadyRead()
     {
         if (!m_nNextBlockSize)
         {
-            if (pClientSocket->bytesAvailable() < sizeof(quint16))
+            if (pClientSocket->bytesAvailable() < static_cast<qint64>(sizeof(quint16)))
             {
                 break;
             }
