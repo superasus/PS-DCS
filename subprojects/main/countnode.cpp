@@ -9,8 +9,8 @@ CountNode::CountNode(QObject* parent): QObject(parent)
 QList<QList<float> > CountNode::mapReduce(const QList<float> &data)
 {
     QList<QList<float>> answer;
-    quint64 nodeCount = m_ds.getNodeCount() + 1;
-    quint32 segmentLength = ceil(data.size() / (nodeCount + 1));
+    quint64 nodeCount = m_ds.getNodeCount();
+    quint32 segmentLength = ceil(data.size() / (nodeCount));
     quint32 i = 0;
     for(quint32 j = 0; j < nodeCount; ++j)
     {
@@ -29,10 +29,12 @@ void CountNode::processTaskerMessage(
 {
     QList<QList<float>> reducedData = mapReduce(data);
     quint32 segmentCount = reducedData.size();
-    QList<float> returnDataBuf(data.size());
+    QList<float> returnDataBuf;
+    for(quint32 i = 0; i < data.size(); ++i) returnDataBuf.append(0);
+    m_server.sendMeesageToClient(taskerSocket.data(), {});
     m_taskersData[currentAvailableTaskerId] = {taskerSocket, returnDataBuf, segmentCount, 0};
     QVector<QString> ipPull = m_ds.getIpPull();
-    ipPull.append("127.0.0.1");
+//    ipPull.append("127.0.0.1");
     m_vecClient.clear();
     quint32 dataOffset = 0;
     for (quint32 i = 0; i < reducedData.size(); ++i)
@@ -86,13 +88,15 @@ void CountNode::setupConnection()
 
 void CountNode::processMessage(const Message &message, QTcpSocket* pSocket)
 {
+    m_server.sendMeesageToClient(pSocket, {});
     switch (message.ReasonForTransfer) {
+
     case reason::PROBLEMBOOK:
         processTaskerMessage(message.function, message.dataProtokol, SocketPtr(pSocket));
         qDebug() << message.dataProtokol;
         break;
     case reason::PROCESSING:
-        processProcessingMessage(message.dataOffset, message.taskerId, message.function, message.dataProtokol, pSocket);
+        processProcessingMessage(message.taskerId,message.dataOffset, message.function, message.dataProtokol, pSocket);
         qDebug() << message.dataProtokol;
         break;
     case reason::BACK:

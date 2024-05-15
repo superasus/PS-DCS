@@ -53,12 +53,12 @@ void TcpServer::slotReadyRead()
         data.sizeArray = std::get<1>(ar);
         data.ReasonForTransfer = std::get<2>(ar);
         data.dataProtokol.append(std::get<3>(ar));
-        data.dataProtokol.append(std::get<4>(ar));
-        data.dataProtokol.append(std::get<5>(ar));
+        data.dataOffset = (std::get<4>(ar));
+        data.taskerId = (std::get<5>(ar));
         m_nNextBlockSize = 0;
 
     }
-    if(data.dataProtokol.size()== data.sizeArray)
+    if(data.dataProtokol.size() == data.sizeArray)
     {
         emit dataReceived(data, pClientSocket);
         data.dataProtokol.clear();

@@ -50,7 +50,7 @@ private:
     void processBackMessage(const quint32 taskerId, const quint32 dataOffset, const QList<float> data);
     void setupConnection();
 
-    quint32 currentAvailableTaskerId;
+    quint32 currentAvailableTaskerId = 0;
 public slots:
 //    void ready() ;
     void processMessage(const Message& Message, QTcpSocket* pSocket = nullptr);

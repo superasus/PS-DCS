@@ -4,6 +4,8 @@
 #include <QList>
 #include <QString>
 #include <QByteArray>
+#include <QDebug>
+
 class UIHandler {
 
 public:
@@ -11,7 +13,7 @@ public:
     QList<float> takeData(const QString& inviteMessage);
     QString takeIp(const QString& inviteMessage);
     void sendMessage(const QString& Message);
-    void showResult(const QList<float> data);
+    void showResult(const QList<float> &data);
     UIHandler() = default;
 private:
     QList<float> parseData(const QString&data);

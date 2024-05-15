@@ -43,8 +43,9 @@ QList<float> UIHandler::parseData(const QString&data)
     return answer;
 }
 
-void UIHandler::showResult(const QList<float> data)
+void UIHandler::showResult(const QList<float> &data)
 {
+    qDebug() << data;
     m_out << "processed result: ";
     for (const float num : data) {
         m_out << QString::number(num);
