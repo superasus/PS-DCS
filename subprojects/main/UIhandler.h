@@ -9,6 +9,8 @@ class UIHandler {
 public:
     QByteArray takeFunc(const QString& inviteMessage);
     QList<float> takeData(const QString& inviteMessage);
+    QString takeIp(const QString& inviteMessage);
+    void sendMessage(const QString& Message);
     void showResult(const QList<float> data);
     UIHandler() = default;
 private:

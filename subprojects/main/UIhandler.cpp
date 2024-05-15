@@ -16,6 +16,20 @@ QList<float> UIHandler::takeData(const QString &inviteMessage)
     return parseData(m_in.readLine());
 }
 
+QString UIHandler::takeIp(const QString &inviteMessage)
+{
+    if (m_in.atEnd()) m_in.skipWhiteSpace();
+    m_out << inviteMessage;
+    m_out.flush();
+    return m_in.readLine();
+}
+
+void UIHandler::sendMessage(const QString &message)
+{
+    m_out << message;
+    m_out.flush();
+}
+
 QList<float> UIHandler::parseData(const QString&data)
 {
     QList<float> answer;
